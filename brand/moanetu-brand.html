@@ -1,0 +1,415 @@
+<title>MOANETU Identité</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout : une page « dossier de marque » en bandes pleine largeur ; chaque bande = une règle de la marque, illustrée en 9:16 quand elle concerne la vidéo. */
+:root{
+  /* Couleurs de marque : fixes, identiques dans les deux thèmes */
+  --cobalt:#2747D6;   /* Bleu uniforme : couleur signature */
+  --pagne:#E0402F;    /* Rouge pagne : accent, jamais en fond plein long */
+  --wax:#7CCFC6;      /* Turquoise wax : couleur secondaire douce */
+  --ocre:#D99A4E;     /* Ocre mur : chaleur, décors, ombres portées */
+  --cacao:#3A2215;    /* Brun cacao : texte, pupilles, contours */
+  --chaux:#F3ECE1;    /* Blanc de chaux : fond clair */
+  --ciel:#8CC6EC;     /* Ciel de midi */
+
+  /* Tokens de page (thème clair) */
+  --bg:#F6F2EB;
+  --surface:#FFFFFF;
+  --fg:#2A1B12;
+  --muted:#6E5D50;
+  --line:#E3D9CC;
+  --band:#EDE5D9;
+
+  --display:"Bricolage Grotesque", "Arial Rounded MT Bold", system-ui, sans-serif;
+  --body:"Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"DM Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#17110D;--surface:#211913;--fg:#F3ECE1;--muted:#B5A595;--line:#3A2D23;--band:#1D1611;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#17110D;--surface:#211913;--fg:#F3ECE1;--muted:#B5A595;--line:#3A2D23;--band:#1D1611;color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:16px/1.6 var(--body)}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+section{padding-block:72px;border-top:1px solid var(--line)}
+section.alt{background:var(--band)}
+h1,h2,h3{font-family:var(--display);line-height:1.05;margin:0;text-wrap:balance}
+h2{font-size:clamp(30px,4.4vw,48px);font-weight:800;letter-spacing:-.02em}
+h3{font-size:20px;font-weight:700}
+p{margin:0}
+.eyebrow{font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.lede{max-width:62ch;color:var(--muted);font-size:17px}
+.head{display:grid;gap:14px;margin-bottom:40px}
+.grid{display:grid;gap:20px}
+code,.mono{font-family:var(--mono);font-size:13px}
+
+/* ---------- HERO ---------- */
+.hero{background:var(--cobalt);color:var(--chaux);margin-top:calc(-1 * env(safe-area-inset-top, 0px));padding-top:calc(env(safe-area-inset-top, 0px) + 56px);padding-bottom:64px;overflow:hidden;position:relative}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:40px;align-items:center}
+.hero-mark{width:min(100%,420px);justify-self:center;filter:drop-shadow(0 18px 0 rgba(20,20,80,.25))}
+.hero .eyebrow{color:var(--wax)}
+.wordmark{display:flex;align-items:center;font:800 clamp(52px,9vw,112px)/.9 var(--display);letter-spacing:-.035em;margin:18px 0 20px}
+.wordmark .o{width:.74em;height:.74em;margin:0 .02em;flex:none}
+.tagline{font:700 clamp(20px,2.6vw,28px)/1.2 var(--display);max-width:22ch}
+.tagline em{font-style:normal;background:var(--pagne);padding:0 .2em;border-radius:6px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.hero p.sub{margin-top:18px;max-width:46ch;opacity:.85}
+
+/* animation du regard */
+.eyes{transform-box:fill-box;transform-origin:center;animation:blink 5.5s infinite}
+.pupils{animation:glance 5.5s infinite;transform-box:view-box}
+@keyframes blink{0%,44%,50%,100%{transform:scaleY(1)}47%{transform:scaleY(.08)}}
+@keyframes glance{0%,18%{transform:translateX(-12px)}26%,62%{transform:translateX(0)}70%,100%{transform:translateX(-12px)}}
+@media (prefers-reduced-motion:reduce){.eyes,.pupils,.sting *{animation:none!important}}
+
+/* ---------- ADN ---------- */
+.adn{grid-template-columns:repeat(4,minmax(0,1fr))}
+.adn article{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:grid;gap:10px;align-content:start}
+.adn .seen{font:500 12px/1.4 var(--mono);color:var(--muted)}
+.adn .rule{font-weight:600}
+.adn .chip{width:34px;height:34px;border-radius:50%;border:3px solid var(--surface);box-shadow:0 0 0 1px var(--line)}
+
+/* ---------- LOGO ---------- */
+.logos{grid-template-columns:repeat(4,minmax(0,1fr))}
+.tile{border-radius:14px;aspect-ratio:1;display:grid;place-items:center;position:relative;max-width:100%}
+.tile svg{width:58%}
+.tile figcaption,.cap{font:500 12px/1.4 var(--mono);color:var(--muted);margin-top:10px}
+.t1{background:var(--chaux);--m-head:var(--cobalt);--m-eye:#fff;--m-pupil:var(--cacao);--m-brow:var(--cacao)}
+.t2{background:var(--cobalt);--m-head:var(--chaux);--m-eye:#fff;--m-pupil:var(--cacao);--m-brow:var(--cobalt)}
+.t3{background:#fff;--m-head:var(--cacao);--m-eye:#fff;--m-pupil:var(--cacao);--m-brow:var(--cacao);box-shadow:inset 0 0 0 1px var(--line)}
+.t4{background:linear-gradient(180deg,var(--ciel) 0 55%,var(--ocre) 55%);--m-head:var(--cobalt);--m-eye:#fff;--m-pupil:var(--cacao);--m-brow:var(--cacao)}
+.t4 .disc{width:66%;aspect-ratio:1;border-radius:50%;background:var(--chaux);display:grid;place-items:center}
+.t4 .disc svg{width:78%}
+
+.construct{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px;margin-top:40px;align-items:center}
+.construct .plate{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:28px;--m-head:var(--cobalt);--m-eye:#fff;--m-pupil:var(--cacao);--m-brow:var(--cacao)}
+.rules{display:grid;gap:14px;padding:0;margin:0;list-style:none}
+.rules li{display:grid;grid-template-columns:110px minmax(0,1fr);gap:14px;border-bottom:1px dashed var(--line);padding-bottom:12px}
+.rules b{font:500 12px/1.6 var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.donts{grid-template-columns:repeat(4,minmax(0,1fr));margin-top:28px}
+.dont{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:10px;justify-items:center;text-align:center;font-size:13px}
+.dont .box{width:84px;height:84px;display:grid;place-items:center;position:relative}
+.dont .box::after{content:"";position:absolute;inset:-4px;background:linear-gradient(45deg,transparent 48%,var(--pagne) 48% 52%,transparent 52%)}
+.dont svg{width:72px}
+
+/* ---------- COULEURS ---------- */
+.swatches{grid-template-columns:repeat(6,minmax(0,1fr))}
+.sw{border-radius:14px;overflow:hidden;background:var(--surface);border:1px solid var(--line)}
+.sw .c{height:130px;display:flex;align-items:flex-end;padding:12px;font:800 28px/1 var(--display)}
+.sw .meta{padding:12px 14px;display:grid;gap:4px}
+.sw .meta strong{font-family:var(--display);font-size:16px}
+.sw .meta span{font:400 12px/1.4 var(--mono);color:var(--muted)}
+.ratio{display:flex;height:22px;border-radius:999px;overflow:hidden;margin-top:24px;border:1px solid var(--line)}
+.ratio i{display:block}
+
+/* ---------- TYPO ---------- */
+.type{grid-template-columns:repeat(3,minmax(0,1fr))}
+.type article{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;display:grid;gap:12px;align-content:start}
+.type .big{font-size:56px;line-height:1;letter-spacing:-.03em}
+
+/* ---------- VIDÉO 9:16 ---------- */
+.phones{grid-template-columns:repeat(4,minmax(0,1fr));align-items:start}
+.phone{aspect-ratio:9/16;max-width:100%;border-radius:22px;overflow:hidden;position:relative;background:linear-gradient(180deg,var(--ciel) 0 46%,#E9C79A 46% 47%,var(--ocre) 47% 82%,#B9824A 82%);box-shadow:0 0 0 6px var(--cacao),0 14px 30px rgba(40,20,10,.25);color:#fff;font-family:var(--display);container-type:inline-size}
+.phone .door{position:absolute;left:58%;top:30%;width:24%;height:52%;background:#5B3A24;border-radius:3px 3px 0 0;box-shadow:inset 0 0 0 4px #4A2E1C}
+.phone .sun{position:absolute;right:-10%;top:-8%;width:46%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#FFF4D2 0 30%,rgba(255,244,210,0) 70%)}
+.phone .ui{position:absolute;right:4%;bottom:22%;display:grid;gap:9cqw}
+.phone .ui i{width:9cqw;height:9cqw;border-radius:50%;background:rgba(255,255,255,.55)}
+.phone .cap-zone{position:absolute;left:4%;right:20%;bottom:5%;display:grid;gap:3cqw}
+.phone .cap-zone i{height:3cqw;border-radius:2px;background:rgba(255,255,255,.55)}
+.phone .cap-zone i:last-child{width:60%}
+.wm{position:absolute;left:5%;top:12%;display:flex;align-items:center;gap:2cqw;font:800 6cqw/1 var(--display);letter-spacing:-.02em;opacity:.9;text-shadow:0 1px 3px rgba(40,20,10,.5);--m-head:var(--chaux);--m-eye:#fff;--m-pupil:var(--cacao);--m-brow:var(--cobalt)}
+.wm svg{width:12cqw;filter:drop-shadow(0 1px 2px rgba(40,20,10,.45))}
+.safe{position:absolute;inset:0;pointer-events:none}
+.safe .z{position:absolute;background:repeating-linear-gradient(45deg,rgba(224,64,47,.28) 0 6px,rgba(224,64,47,.08) 6px 12px);border:1px dashed rgba(224,64,47,.9)}
+.safe .top{left:0;right:0;top:0;height:10%}
+.safe .right{right:0;top:30%;width:17%;bottom:20%}
+.safe .bottom{left:0;right:0;bottom:0;height:20%}
+.subtitle{position:absolute;left:8%;right:20%;top:60%;text-align:center;font:800 7.4cqw/1.12 var(--display);color:#fff;paint-order:stroke fill;-webkit-text-stroke:1.6cqw var(--cacao);letter-spacing:-.01em}
+.subtitle .k{color:#fff;background:var(--cobalt);-webkit-text-stroke:0;padding:0 1.6cqw;border-radius:2cqw;box-decoration-break:clone;-webkit-box-decoration-break:clone;box-shadow:0 0 0 1.2cqw var(--cacao)}
+.sting{background:var(--cobalt);display:grid;place-items:center;--m-head:var(--chaux);--m-eye:#fff;--m-pupil:var(--cacao);--m-brow:var(--cobalt)}
+.sting .in{display:grid;justify-items:center;gap:4cqw}
+.sting svg{width:52cqw;animation:pop 3.2s cubic-bezier(.3,1.6,.5,1) infinite}
+.sting .name{font:800 13cqw/1 var(--display);letter-spacing:-.03em;animation:rise 3.2s ease-out infinite}
+@keyframes pop{0%{transform:scale(0) rotate(-12deg)}18%,85%{transform:scale(1) rotate(0)}100%{transform:scale(1)}}
+@keyframes rise{0%,20%{opacity:0;transform:translateY(20%)}34%,100%{opacity:1;transform:none}}
+.end{background:var(--chaux);color:var(--cacao);display:grid;align-content:center;justify-items:center;gap:6cqw;text-align:center;--m-head:var(--cobalt);--m-eye:#fff;--m-pupil:var(--cacao);--m-brow:var(--cacao)}
+.end svg{width:46cqw}
+.end .q{font:800 8cqw/1.1 var(--display);padding:0 8cqw}
+.end .btn{background:var(--pagne);color:#fff;font:800 6.4cqw/1 var(--display);padding:4cqw 7cqw;border-radius:99px;box-shadow:0 1.4cqw 0 var(--cacao)}
+.end .next{font:500 4cqw/1.3 var(--mono);opacity:.75}
+.phone-cap{display:grid;gap:6px;margin-top:18px}
+.phone-cap b{font-family:var(--display);font-size:17px}
+.phone-cap span{font-size:14px;color:var(--muted)}
+
+/* ---------- DIRECTION 3D ---------- */
+.dir{grid-template-columns:repeat(3,minmax(0,1fr))}
+.dir article{border-top:3px solid var(--cobalt);padding-top:16px;display:grid;gap:8px;align-content:start}
+.dir article:nth-child(3n+2){border-color:var(--pagne)}
+.dir article:nth-child(3n){border-color:var(--wax)}
+.dir p{color:var(--muted);font-size:15px}
+.cast{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:36px}
+.cast div{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px}
+.cast i{width:44px;height:44px;border-radius:12px}
+.cast b{display:block;font-family:var(--display)}
+.cast span{font-size:13px;color:var(--muted)}
+
+/* ---------- TON ---------- */
+.voice{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.voice article{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px}
+.voice ul{margin:12px 0 0;padding-left:18px;display:grid;gap:8px}
+.voice .yes h3{color:var(--cobalt)}
+.voice .no h3{color:var(--pagne)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .voice .yes h3{color:var(--wax)}}
+:root[data-theme="dark"] .voice .yes h3{color:var(--wax)}
+footer{padding-block:40px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+
+@media (max-width:900px){
+  .hero .wrap,.construct,.voice{grid-template-columns:minmax(0,1fr)}
+  .adn,.logos,.phones,.cast,.donts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .swatches,.type,.dir{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hero-mark{width:min(70%,300px)}
+}
+@media (max-width:520px){
+  .adn,.swatches,.type,.dir,.cast{grid-template-columns:minmax(0,1fr)}
+  .rules li{grid-template-columns:minmax(0,1fr);gap:2px}
+  section{padding-block:52px}
+}
+</style>
+
+<!-- Le symbole : une bulle de parole qui fait le « regard en coin » -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <clipPath id="eyeclip"><ellipse cx="76" cy="94" rx="27" ry="31"/><ellipse cx="126" cy="94" rx="27" ry="31"/></clipPath>
+    <symbol id="mark" viewBox="0 0 200 200">
+      <path fill="var(--m-head)" d="M100 16c53 0 86 31 86 79s-33 79-86 79c-11 0-21-1.5-30-4.5L36 188l9-31C27 143 14 121 14 95 14 47 47 16 100 16z"/>
+      <ellipse cx="76" cy="94" rx="27" ry="31" fill="var(--m-eye)"/>
+      <ellipse cx="126" cy="94" rx="27" ry="31" fill="var(--m-eye)"/>
+      <g clip-path="url(#eyeclip)">
+        <circle cx="86" cy="101" r="12.5" fill="var(--m-pupil)"/>
+        <circle cx="136" cy="101" r="12.5" fill="var(--m-pupil)"/>
+        <path d="M79.5 96h5M82 93.5v5M129.5 96h5M132 93.5v5" stroke="var(--m-eye)" stroke-width="2.4" stroke-linecap="round"/>
+        <rect x="40" y="56" width="120" height="25" fill="var(--m-head)"/>
+        <path d="M40 81h120" stroke="var(--m-pupil)" stroke-width="4"/>
+      </g>
+      <path d="M53 54q22-6 44 1" stroke="var(--m-brow)" stroke-width="8" fill="none" stroke-linecap="round"/>
+      <path d="M106 45q22-17 44-3" stroke="var(--m-brow)" stroke-width="8" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="o-eye" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="18"/>
+      <circle cx="62" cy="56" r="17" fill="currentColor"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="hero">
+  <div class="wrap">
+    <svg class="hero-mark" viewBox="0 0 200 200" role="img" aria-label="Symbole MOANETU : une bulle de parole qui regarde en coin">
+      <path fill="#F3ECE1" d="M100 16c53 0 86 31 86 79s-33 79-86 79c-11 0-21-1.5-30-4.5L36 188l9-31C27 143 14 121 14 95 14 47 47 16 100 16z"/>
+      <g class="eyes">
+        <ellipse cx="76" cy="94" rx="27" ry="31" fill="#fff"/>
+        <ellipse cx="126" cy="94" rx="27" ry="31" fill="#fff"/>
+        <g clip-path="url(#eyeclip)">
+          <g class="pupils">
+            <circle cx="86" cy="101" r="12.5" fill="#3A2215"/>
+            <circle cx="136" cy="101" r="12.5" fill="#3A2215"/>
+            <path d="M79.5 96h5M82 93.5v5M129.5 96h5M132 93.5v5" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
+          </g>
+          <rect x="40" y="56" width="120" height="25" fill="#F3ECE1"/>
+          <path d="M40 81h120" stroke="#3A2215" stroke-width="4"/>
+        </g>
+      </g>
+      <path d="M53 54q22-6 44 1" stroke="#2747D6" stroke-width="8" fill="none" stroke-linecap="round"/>
+      <path d="M106 45q22-17 44-3" stroke="#2747D6" stroke-width="8" fill="none" stroke-linecap="round"/>
+    </svg>
+    <div>
+      <span class="eyebrow">Identité visuelle · v1 · novembre 2026</span>
+      <h1 class="wordmark" aria-label="MOANETU">M<svg class="o" aria-hidden="true"><use href="#o-eye"/></svg>ANETU</h1>
+      <p class="tagline">La foi, <em>du lundi au samedi.</em></p>
+      <p class="sub">Une marque d'animation 3D qui raconte la vie chrétienne là où elle se joue vraiment : à la maison, au marché, au bureau, dans la cour. Le symbole est une bulle de parole qui lève un sourcil. Elle a vu ce qu'on ne dit pas.</p>
+    </div>
+  </div>
+</header>
+
+<main>
+<section>
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">01 · Ce qu'on garde des vidéos de référence</span>
+      <h2>Quatre observations, quatre règles</h2>
+      <p class="lede">Les vidéos partagent une grammaire précise. On en garde l'esprit, pas les personnages ni les décors. Chaque observation devient une règle de la marque.</p>
+    </div>
+    <div class="grid adn">
+      <article><i class="chip" style="background:var(--cobalt)"></i><span class="seen">Vu : uniforme bleu vif, chemise unie, robe rouge</span><p class="rule">Un personnage = une couleur franche qui le rend reconnaissable en une seconde.</p></article>
+      <article><i class="chip" style="background:#fff;box-shadow:0 0 0 1px var(--line),inset -8px 0 0 var(--cacao)"></i><span class="seen">Vu : grands yeux, regards en coin, sourcils qui parlent</span><p class="rule">Le regard porte l'humour. Il devient le logo.</p></article>
+      <article><i class="chip" style="background:var(--ocre)"></i><span class="seen">Vu : murs de chaux, portes en fer rouillé, carrelage, plein soleil</span><p class="rule">Des décors du quotidien africain, chauds et lumineux, jamais sombres ni génériques.</p></article>
+      <article><i class="chip" style="background:var(--ciel)"></i><span class="seen">Vu : contre-plongées, gros plans serrés, ciel bleu en fond</span><p class="rule">Caméra proche des visages. Le ciel bleu sert de respiration entre deux répliques.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">02 · Le logo</span>
+      <h2>Une bulle de parole qui a tout vu</h2>
+      <p class="lede">La bulle dit « on raconte une histoire ». La paupière mi-close et le sourcil levé disent « je sais ce qui se passe ici ». Dans chaque pupille, un petit reflet en forme de croix : discret sur un téléphone, visible sur une affiche.</p>
+    </div>
+    <div class="grid logos">
+      <figure style="margin:0"><div class="tile t1"><svg><use href="#mark"/></svg></div><figcaption>Principal · cobalt sur chaux</figcaption></figure>
+      <figure style="margin:0"><div class="tile t2"><svg><use href="#mark"/></svg></div><figcaption>Inversé · chaux sur cobalt</figcaption></figure>
+      <figure style="margin:0"><div class="tile t3"><svg><use href="#mark"/></svg></div><figcaption>Une couleur · cacao (tampon, broderie)</figcaption></figure>
+      <figure style="margin:0"><div class="tile t4"><div class="disc"><svg><use href="#mark"/></svg></div></div><figcaption>Sur une image · toujours dans une pastille</figcaption></figure>
+    </div>
+
+    <div class="construct">
+      <div class="plate">
+        <svg viewBox="-30 -30 260 260" style="width:100%;max-width:360px;display:block;margin:auto" aria-label="Construction et zone de protection">
+          <rect x="-24" y="-24" width="248" height="248" fill="none" stroke="var(--pagne)" stroke-dasharray="6 5" stroke-width="1.5"/>
+          <rect x="14" y="16" width="172" height="172" fill="none" stroke="var(--muted)" stroke-width=".8"/>
+          <use href="#mark" x="0" y="0" width="200" height="200"/>
+          <text x="-20" y="-8" fill="var(--pagne)" font-family="DM Mono, monospace" font-size="10">zone libre = 1 œil</text>
+        </svg>
+      </div>
+      <ul class="rules">
+        <li><b>Protection</b><span>Laisser autour du logo un espace vide égal à la largeur d'un œil.</span></li>
+        <li><b>Taille mini</b><span>48 px à l'écran, 12 mm à l'impression. En dessous, utiliser le symbole seul, sans le nom.</span></li>
+        <li><b>Nom</b><span>MOANETU s'écrit toujours en capitales. Le « O » est un œil qui regarde à droite, vers la suite de l'histoire.</span></li>
+        <li><b>Photo de profil</b><span>Version inversée (chaux sur cobalt), symbole seul, centré, à 70 % du cercle.</span></li>
+        <li><b>Fichiers</b><span><code>brand/logo/</code> : SVG et PNG, couleur, inversé, une couleur, filigrane.</span></li>
+      </ul>
+    </div>
+
+    <div class="grid donts">
+      <div class="dont"><div class="box"><svg style="transform:scaleX(-1);--m-head:var(--cobalt);--m-eye:#fff;--m-pupil:var(--cacao);--m-brow:var(--cacao)"><use href="#mark"/></svg></div>Ne pas retourner : le regard va vers la droite</div>
+      <div class="dont"><div class="box"><svg style="--m-head:#8a3fd1;--m-eye:#fff;--m-pupil:#222;--m-brow:#222"><use href="#mark"/></svg></div>Pas d'autres couleurs que la palette</div>
+      <div class="dont"><div class="box"><svg style="transform:scaleY(.65);--m-head:var(--cobalt);--m-eye:#fff;--m-pupil:var(--cacao);--m-brow:var(--cacao)"><use href="#mark"/></svg></div>Ne pas déformer</div>
+      <div class="dont"><div class="box" style="background:linear-gradient(135deg,var(--ocre),var(--ciel));border-radius:8px"><svg style="--m-head:var(--cobalt);--m-eye:#fff;--m-pupil:var(--cacao);--m-brow:var(--cacao)"><use href="#mark"/></svg></div>Jamais directement sur un décor chargé</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">03 · Couleurs</span>
+      <h2>Sept couleurs prises dans le décor</h2>
+      <p class="lede">Chaque couleur vient d'un objet du quotidien : un uniforme, un pagne, un mur. Le cobalt domine, le rouge pagne sert uniquement à attirer l'œil sur une action (bouton, mot-clé, alerte).</p>
+    </div>
+    <div class="grid swatches">
+      <div class="sw"><div class="c" style="background:var(--cobalt);color:var(--chaux)">Aa</div><div class="meta"><strong>Bleu uniforme</strong><span>#2747D6</span><span>Signature, fonds, logo</span></div></div>
+      <div class="sw"><div class="c" style="background:var(--chaux);color:var(--cacao);box-shadow:inset 0 -1px 0 var(--line)">Aa</div><div class="meta"><strong>Blanc de chaux</strong><span>#F3ECE1</span><span>Fond clair, logo inversé</span></div></div>
+      <div class="sw"><div class="c" style="background:var(--cacao);color:var(--chaux)">Aa</div><div class="meta"><strong>Brun cacao</strong><span>#3A2215</span><span>Texte, contours, pupilles</span></div></div>
+      <div class="sw"><div class="c" style="background:var(--pagne);color:#fff">Aa</div><div class="meta"><strong>Rouge pagne</strong><span>#E0402F</span><span>Action, mot-clé (5 % max)</span></div></div>
+      <div class="sw"><div class="c" style="background:var(--wax);color:var(--cacao)">Aa</div><div class="meta"><strong>Turquoise wax</strong><span>#7CCFC6</span><span>Secondaire, motifs</span></div></div>
+      <div class="sw"><div class="c" style="background:var(--ocre);color:var(--cacao)">Aa</div><div class="meta"><strong>Ocre mur</strong><span>#D99A4E</span><span>Décors, chaleur</span></div></div>
+    </div>
+    <p class="cap" style="margin-top:14px">+ Ciel de midi <span class="mono">#8CC6EC</span> : réservé aux fonds de scène et aux respirations.</p>
+    <div class="ratio" role="img" aria-label="Proportions : cobalt 40 %, chaux 25 %, cacao 15 %, ocre 8 %, wax 7 %, pagne 5 %">
+      <i style="flex:40;background:var(--cobalt)"></i><i style="flex:25;background:var(--chaux)"></i><i style="flex:15;background:var(--cacao)"></i><i style="flex:8;background:var(--ocre)"></i><i style="flex:7;background:var(--wax)"></i><i style="flex:5;background:var(--pagne)"></i>
+    </div>
+    <p class="cap">Proportions sur une miniature, une affiche ou une carte de fin : 40 / 25 / 15 / 8 / 7 / 5</p>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">04 · Typographie</span>
+      <h2>Ronde, lisible, un peu effrontée</h2>
+      <p class="lede">Trois polices gratuites (Google Fonts), utilisables partout : CapCut, Canva, Blender, Premiere.</p>
+    </div>
+    <div class="grid type">
+      <article><span class="eyebrow">Titres et sous-titres vidéo</span><span class="big" style="font-family:var(--display);font-weight:800">Bricolage</span><p>Bricolage Grotesque ExtraBold. Pour le nom, les titres d'épisode, les sous-titres incrustés et les miniatures.</p></article>
+      <article><span class="eyebrow">Textes longs</span><span class="big" style="font-family:var(--body);font-weight:600">Instrument</span><p>Instrument Sans. Pour les descriptions, les légendes de posts, les documents et le site.</p></article>
+      <article><span class="eyebrow">Repères et numéros</span><span class="big" style="font-family:var(--mono);font-size:44px">Ép. 012</span><p>DM Mono. Pour les numéros d'épisode, les dates et les versets cités (Jc 1:22).</p></article>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">05 · La marque dans chaque vidéo</span>
+      <h2>Quatre éléments, toujours les mêmes</h2>
+      <p class="lede">C'est la répétition qui crée la marque de fabrique. Ces quatre éléments reviennent dans chaque épisode, au même endroit et avec la même durée.</p>
+    </div>
+    <div class="grid phones">
+      <div>
+        <div class="phone sting"><div class="in"><svg><use href="#mark"/></svg><span class="name">MOANETU</span></div></div>
+        <div class="phone-cap"><b>Signature d'ouverture · 1,2 s</b><span>La bulle apparaît avec un rebond, cligne des yeux, puis le nom monte. Son : deux notes de balafon et un « hmm ». Optionnelle sur TikTok, obligatoire sur YouTube.</span></div>
+      </div>
+      <div>
+        <div class="phone"><span class="sun"></span><span class="door"></span>
+          <div class="safe"><span class="z top"></span><span class="z right"></span><span class="z bottom"></span></div>
+          <div class="wm"><svg><use href="#mark"/></svg>MOANETU</div>
+        </div>
+        <div class="phone-cap"><b>Filigrane · toute la vidéo</b><span>En haut à gauche, à 12 % du haut et 5 % du bord, 14 % de la largeur, opacité 90 %. Les zones hachurées sont couvertes par l'interface TikTok : rien d'important dedans.</span></div>
+      </div>
+      <div>
+        <div class="phone"><span class="sun"></span><span class="door"></span>
+          <div class="wm"><svg><use href="#mark"/></svg>MOANETU</div>
+          <p class="subtitle">Frère, tu as prié pour ce <span class="k">jollof</span> ou pas ?</p>
+          <div class="ui"><i></i><i></i><i></i></div>
+          <div class="cap-zone"><i></i><i></i></div>
+        </div>
+        <div class="phone-cap"><b>Sous-titres · chaque réplique</b><span>Bricolage ExtraBold blanc, contour cacao épais. Un seul mot-clé par phrase, en pastille cobalt. Placés à 60 % de la hauteur, au-dessus de la légende.</span></div>
+      </div>
+      <div>
+        <div class="phone end"><svg style="transform:rotate(8deg)"><use href="#mark"/></svg><p class="q">Et toi, tu aurais fait quoi ?</p><span class="btn">Abonne-toi</span><span class="next">Ép. 013 · samedi</span></div>
+        <div class="phone-cap"><b>Carte de fin · 2 s</b><span>Fond chaux, la bulle penchée vers la question. Une question qui pousse aux commentaires, puis le bouton rouge pagne et la date du prochain épisode.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">06 · Direction 3D</span>
+      <h2>Comment doit être une image MOANETU</h2>
+      <p class="lede">À donner tel quel à l'animateur, ou à coller dans le prompt du générateur vidéo IA.</p>
+    </div>
+    <div class="grid dir">
+      <article><h3>Lumière</h3><p>Soleil de 10 h ou 16 h, chaud et rasant (environ 5200 K), ombres nettes. À l'intérieur, une fenêtre comme source principale. Jamais de nuit bleue sauf pour une scène de prière.</p></article>
+      <article><h3>Visages</h3><p>Style cartoon 3D : yeux 20 % plus grands que nature, sourcils épais et mobiles, peaux brunes chaudes et variées. Une expression exagérée par réplique.</p></article>
+      <article><h3>Cadrage</h3><p>9:16. Gros plans à hauteur d'yeux pour les répliques. Contre-plongée pour l'autorité (pasteur, maman, policier), plongée pour le personnage pris en faute.</p></article>
+      <article><h3>Décors</h3><p>Cour en terre battue, salon carrelé, marché, taxi, bureau. Murs de chaux, fer rouillé, plantes, ciel bleu. Les détails vrais (seau, natte, gazinière) comptent plus que la quantité.</p></article>
+      <article><h3>Couleurs à l'image</h3><p>Décor dans les ocres et la chaux, désaturé de 10 %. Les vêtements portent les couleurs saturées. Le cobalt n'apparaît qu'une fois par plan.</p></article>
+      <article><h3>Prompt de base</h3><p class="mono" style="color:var(--fg)">3D animated cartoon, stylized West African characters, large expressive eyes, warm golden sunlight, whitewashed walls, saturated clothing colors, vertical 9:16, cinematic shallow depth of field</p></article>
+    </div>
+    <div class="cast">
+      <div><i style="background:var(--cobalt)"></i><p><b>Le frère zélé</b><span>Chemise cobalt</span></p></div>
+      <div><i style="background:var(--pagne)"></i><p><b>Maman Pasteur</b><span>Pagne rouge</span></p></div>
+      <div><i style="background:var(--wax)"></i><p><b>Le voisin païen</b><span>Boubou wax turquoise</span></p></div>
+      <div><i style="background:var(--ocre)"></i><p><b>La tantine</b><span>Foulard ocre</span></p></div>
+    </div>
+    <p class="cap" style="margin-top:12px">Exemples de distribution : chaque personnage récurrent reçoit une couleur de la palette et la garde pour toujours.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">07 · Ton</span>
+      <h2>On rit avec les gens, pas des gens</h2>
+    </div>
+    <div class="grid voice">
+      <article class="yes"><h3>On fait</h3><ul>
+        <li>Partir d'une scène que tout le monde a vécue : la quête, le retard au culte, le « je vais prier pour ça ».</li>
+        <li>Laisser le regard faire la chute : un silence, un sourcil levé, puis la réplique.</li>
+        <li>Finir sur une vérité simple, parfois un verset, sans faire la morale.</li>
+        <li>Parler comme à la maison : français de tous les jours et expressions locales.</li>
+      </ul></article>
+      <article class="no"><h3>On évite</h3><ul>
+        <li>Se moquer de la foi elle-même ou d'une Église précise.</li>
+        <li>Les sermons de plus de deux phrases.</li>
+        <li>Les décors génériques sans ancrage local.</li>
+        <li>Les couleurs ou polices hors de ce guide, même « juste pour cette fois ».</li>
+      </ul></article>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap">MOANETU · Identité visuelle v1. Fichiers sources dans <code>brand/</code>.</div></footer>
